@@ -21,7 +21,7 @@
 
 
 
-uint8 SSD_voidDisplay_ON(SSD_Struct *puFrom_SSD_Struct)
+uint8 SSD_u8Display_ON(SSD_Struct *puFrom_SSD_Struct)
 {
 	uint8 Local_u8ErrorState =OK;
 
@@ -51,7 +51,7 @@ uint8 SSD_voidDisplay_ON(SSD_Struct *puFrom_SSD_Struct)
 }
 
 
-uint8 SSD_voidDisplay_OFF(SSD_Struct *puFrom_SSD_Struct)
+uint8 SSD_u8Display_OFF(SSD_Struct *puFrom_SSD_Struct)
 {
 	uint8 Local_u8ErrorState =OK;
 
@@ -86,7 +86,7 @@ uint8 SSD_u8SetNumber(SSD_Struct *puFrom_SSD_Struct , uint8 Copy_u8Number)
 	uint8 SSD_u8Comm_Cathod_Arr[10] = { NUMBER0 , NUMBER1 , NUMBER2 , NUMBER3 , NUMBER4 , NUMBER5 , NUMBER6 , NUMBER7 , NUMBER8 , NUMBER9 };
 
 	uint8 Local_u8StateError = OK;
-	if(puFrom_SSD_Struct == NULL)
+	if(puFrom_SSD_Struct != NULL)
 	{
 		if((puFrom_SSD_Struct -> SSD_u8TYPE) == SSD_COMMON_ANODE)
 		{
