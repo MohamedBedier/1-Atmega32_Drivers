@@ -2,24 +2,16 @@
 /*************************************************************/
 /**                                                         **/
 /**  LayerArchitecture : MCAL                               **/
-/** File Name : DIO_Private.h                               **/
+/** File Name : GIE_Cfg.h                                   **/
 /** Auther    : MOHAMED BEDIER MOHAMED                      **/
 /** Verision :  1.00                                        **/
 /**                                                         **/
 /*************************************************************/
 /*************************************************************/
 
-
-#ifndef   DIO_PRIVATE_H_
-#define   DIO_PRIVATE_H_
-
+#ifndef GIE_CFG_H_
+#define GIE_CFG_H_
 
 
 
-
-
-
-
-
-
-#endif
+#endif /* GIE_CFG_H_ */

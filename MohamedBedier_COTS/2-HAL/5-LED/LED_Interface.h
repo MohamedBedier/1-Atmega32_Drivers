@@ -46,7 +46,7 @@ typedef struct
 
 uint8  LED_u8LedTurnON(LED_Struct *puFrom_LED_Struct);
 uint8  LED_u8LedTurnOff(LED_Struct *puFrom_LED_Struct);
-
+uint8 LED_u8ToggleLed(LED_Struct *puFrom_LED_Struct);
 
 
 

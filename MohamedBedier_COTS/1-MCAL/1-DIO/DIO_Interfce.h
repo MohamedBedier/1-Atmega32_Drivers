@@ -36,6 +36,8 @@
 #define  DIO_u8PORT_INPUT   0X00
 #define  DIO_u8PORT_OUTPUT  0XFF
 
+#define  DIO_u8PORT_LOW   0X00
+#define  DIO_u8PORT_HIGH  0XFF
 
 uint8 DIO_u8SetPinDerection(uint8 Copy_u8Port ,uint8 Copy_u8Pin ,uint8 Copy_u8Direction);
 uint8 DIO_u8SetPinValue(uint8 Copy_u8Port ,uint8 Copy_u8Pin ,uint8 Copy_u8Value);
