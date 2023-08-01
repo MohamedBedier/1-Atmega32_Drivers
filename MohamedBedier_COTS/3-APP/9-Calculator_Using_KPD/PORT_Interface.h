@@ -1,17 +1,19 @@
 /*************************************************************/
 /*************************************************************/
 /**                                                         **/
-/**  LayerArchitecture : HAL                                **/
-/** File Name : DCMotor_Private.h                           **/
+/**  LayerArchitecture : MCAL                               **/
+/** File Name : PORT_Interface.h                             **/
 /** Auther    : MOHAMED BEDIER MOHAMED                      **/
 /** Verision :  1.00                                        **/
 /**                                                         **/
 /*************************************************************/
 /*************************************************************/
 
-#ifndef DCMOTOR_PRIVATE_H_
-#define DCMOTOR_PRIVATE_H_
+#ifndef   PORT_INTERFACE_H_
+#define   PORT_INTERFACE_H_
 
 
+void PORT_voidInit(void);
 
-#endif /* DCMOTOR_PRIVATE_H_ */
+
+#endif

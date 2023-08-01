@@ -44,7 +44,7 @@
   */
 
 /* this macro include the value of the array */
-#define  KPD_u8BUTTON_ARR   {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}}
+#define  KPD_u8BUTTON_ARR   {{7,8,9,10},{4,5,6,11},{1,2,3,12},{15,0,14,13}}
 
 
 

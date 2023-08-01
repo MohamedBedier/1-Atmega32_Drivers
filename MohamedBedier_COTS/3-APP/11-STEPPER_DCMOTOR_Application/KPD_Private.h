@@ -2,16 +2,17 @@
 /*************************************************************/
 /**                                                         **/
 /**  LayerArchitecture : HAL                                **/
-/** File Name : DCMotor_Private.h                           **/
+/** File Name :KPD_Private.h                                **/
 /** Auther    : MOHAMED BEDIER MOHAMED                      **/
 /** Verision :  1.00                                        **/
 /**                                                         **/
 /*************************************************************/
 /*************************************************************/
 
-#ifndef DCMOTOR_PRIVATE_H_
-#define DCMOTOR_PRIVATE_H_
+
+#ifndef KPD_PRIVATE_H_
+#define KPD_PRIVATE_H_
 
 
 
-#endif /* DCMOTOR_PRIVATE_H_ */
+#endif /* KPD_PRIVATE_H_ */

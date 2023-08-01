@@ -7,6 +7,7 @@
 
 #include "BIT_MATH.h"
 #include "STD_TYPES.h"
+#include "defines.h"
 #include "util/delay.h"
 #include "DIO_Interfce.h"
 

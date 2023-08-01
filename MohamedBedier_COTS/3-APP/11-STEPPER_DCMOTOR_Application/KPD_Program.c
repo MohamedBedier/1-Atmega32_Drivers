@@ -12,8 +12,6 @@
 
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
-#include "defines.h"
-
 #include <util/delay.h>
 
 #include "DIO_Interfce.h"
@@ -22,9 +20,7 @@
 #include "KPD_Interface.h"
 #include "KPD_Private.h"
 
-/**
- * @details : All row pins are input pulled up , All column pins are output high
- */
+/* Required : All row pins are input pulled up , All column pins are output high  */
 
 uint8 KPD_u8GetPressedKey(void)
 {
@@ -36,13 +32,12 @@ uint8 KPD_u8GetPressedKey(void)
 	static uint8 Local_u8KPDArr[KPD_u8ROW_NUM][KPD_u8COL_NUM] = KPD_u8BUTTON_ARR;
 
 
-	/* this loop to activate the column pins  */
+	/* Activate column pins and read the row  */
 	for(Local_u8ColCounter = 0 ; Local_u8ColCounter < KPD_u8COL_NUM ; Local_u8ColCounter++)
 	{
-		/* Activate the current column by low */
+		/* Activate the current column */
 		DIO_u8SetPinValue(KPD_u8COL_PORT , Local_u8ColArr[Local_u8ColCounter],DIO_u8PIN_LOW);
 
-		/* this loop to activate the Row pins */
 		for(Local_u8ROWCounter =0 ; Local_u8ROWCounter < KPD_u8ROW_NUM ; Local_u8ROWCounter++)
 		{
 			/* READ the current row */
@@ -51,23 +46,35 @@ uint8 KPD_u8GetPressedKey(void)
 			/* if the current row is low , button is pressed */
 			if(Local_u8KeyState == DIO_u8PIN_LOW)
 			{
+				_delay_ms(20);
+				DIO_u8GetPinValue(KPD_u8ROW_PORT ,Local_u8ROWArr[Local_u8ROWCounter] , &Local_u8KeyState);
 
-				/* wait until key is released */
-				while (Local_u8KeyState == DIO_u8PIN_LOW)
+				if(Local_u8KeyState == DIO_u8PIN_LOW)
 				{
+					Local_u8PressedKey = Local_u8KPDArr[Local_u8ROWCounter][Local_u8ColCounter];
+				}
+				/* wait until key is released */
+
+				while(Local_u8KeyState == DIO_u8PIN_LOW)
+				{
+					/* READ the current row */
 					DIO_u8GetPinValue(KPD_u8ROW_PORT ,Local_u8ROWArr[Local_u8ROWCounter] , &Local_u8KeyState);
 
+					if(Local_u8KeyState == DIO_u8PIN_HIGH)
+					{
+						_delay_ms(20);
+						DIO_u8GetPinValue(KPD_u8ROW_PORT ,Local_u8ROWArr[Local_u8ROWCounter] , &Local_u8KeyState);
+					}
+
 				}
-				Local_u8PressedKey = Local_u8KPDArr[Local_u8ROWCounter][Local_u8ColCounter];
-				return Local_u8PressedKey;
+
 			}
+
 		}
+
 		/* Deactivate the current col */
 		DIO_u8SetPinValue(KPD_u8COL_PORT , Local_u8ColArr[Local_u8ColCounter],DIO_u8PIN_HIGH);
 	}
 
-
-
-	/* if the compiler reach here , return  0xff  */
 	return Local_u8PressedKey;
 }

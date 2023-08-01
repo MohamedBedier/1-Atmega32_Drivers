@@ -2,16 +2,17 @@
 /*************************************************************/
 /**                                                         **/
 /**  LayerArchitecture : HAL                                **/
-/** File Name : DCMotor_Private.h                           **/
+/** File Name :KPD_Interface.h                              **/
 /** Auther    : MOHAMED BEDIER MOHAMED                      **/
 /** Verision :  1.00                                        **/
 /**                                                         **/
 /*************************************************************/
 /*************************************************************/
 
-#ifndef DCMOTOR_PRIVATE_H_
-#define DCMOTOR_PRIVATE_H_
 
+#ifndef KPD_INTERFACE_H_
+#define KPD_INTERFACE_H_
 
+uint8 KPD_u8GetPressedKey(void);
 
-#endif /* DCMOTOR_PRIVATE_H_ */
+#endif /* KPD_INTERFACE_H_ */
