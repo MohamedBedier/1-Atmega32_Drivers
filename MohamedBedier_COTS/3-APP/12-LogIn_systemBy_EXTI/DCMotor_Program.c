@@ -41,8 +41,7 @@ void DCMOTOR_u8RotateCounterClockWise(uint8 Copy_u8DCMOTORH_BRIDGE_PORT , uint8 
 	DIO_u8SetPinValue(Copy_u8DCMOTORH_BRIDGE_PORT,Copy_u8H_BRIDGE_BASE_2,DIO_u8PIN_LOW);
 
 	/* set base 1 and 3 as high   */
-	DIO_u8SetPinValue(Copy_u8DCMOTORH_BRIDGE_PORT,Copy_u8H_BRIDGE_BASE_1,DIO_u8PIN_HIGH);
-
+		DIO_u8SetPinValue(Copy_u8DCMOTORH_BRIDGE_PORT,Copy_u8H_BRIDGE_BASE_1,DIO_u8PIN_HIGH);
 
 }
 
