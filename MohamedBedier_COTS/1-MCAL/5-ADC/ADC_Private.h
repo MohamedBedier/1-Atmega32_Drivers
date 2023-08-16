@@ -32,7 +32,7 @@
 #define    PRESCALER_MASK   0b11111000;
 #define    CHANNEL_MASK     0b11100000;
 
-#define SINGLE_CONV_ASYNCH  1u
+#define Single_CONV_ASYNCH  1u
 #define CHAIN_CONV_ASYNCH   2u
 
 #endif /* ADC_PRIVATE_H_ */

@@ -28,15 +28,17 @@ static uint16* ADC_pu16ConversionResult = NULL;
 static void(*ADC_puNotificationFunc)(void) = NULL;
 static uint8 ADC_u8BusyFlag = IDLE;
 
+
 static ADC_Chain_Struct* ADC_pstChainDataGlobally = NULL;
 static uint8 ADC_u8ChainChannelCounter;
+
 
 static uint8 ADC_u8IntSource_Falg;
 
 
 void  ADC_voidInit()
 {
-/* configure which volt we can work on it */
+	/* configure which volt we can work on it */
 #if  ADC_u8REF_VOLT == AREF_REF
 
 	CLR_BIT(ADMUX,ADC_u8ADMUX_REFS1);
@@ -56,7 +58,7 @@ void  ADC_voidInit()
 
 #endif
 
-/* configure the resolution of ADC ==> Left adjust(EIGHT_BITS) or right adjust */
+	/* configure the resolution of ADC ==> Left adjust(EIGHT_BITS) or right adjust */
 #if   ADC_u8RESOLUTION == EIGHT_BITS
 	SET_BIT(ADMUX,ADC_u8ADMUX_ADLAR);
 #elif   ADC_u8RESOLUTION == TEN_BITS
@@ -66,7 +68,7 @@ void  ADC_voidInit()
 
 #endif
 
-/* ADC Perphral INTERRUPT ===> ENABLED OR DISABLED */
+	/* ADC Perphral INTERRUPT ===> ENABLED OR DISABLED */
 #if   ADC_u8INT_ENABLE == ENABLED
 
 	SET_BIT(ADCSRA,ADC_u8ADCSRA_ADIE);
@@ -153,7 +155,7 @@ uint8 ADC_u8StartConversionSynch(uint8 Copy_u8Channel ,uint16* Copy_pu16Result)
 	return Local_u8ErrorState;
 }
 
-uint8 ADC_u8StartConversionASynch(uint8 Copy_u8Channel ,uint16* Copy_pu16Result , void(*Copy_puNotificationFunc)(void))
+uint8 ADC_u8StartSingleConversionASynch(uint8 Copy_u8Channel ,uint16* Copy_pu16Result , void(*Copy_puNotificationFunc)(void))
 {
 	/* define local error state */
 	uint8 Local_u8ErrorState =OK;
@@ -174,8 +176,8 @@ uint8 ADC_u8StartConversionASynch(uint8 Copy_u8Channel ,uint16* Copy_pu16Result 
 			/*  Initialize the notification function globally */
 			ADC_puNotificationFunc = Copy_puNotificationFunc;
 
-			/*	this flag we use it in ISR  */
-			ADC_u8IntSource_Falg = SINGLE_CONV_ASYNCH;
+			/*	this flag we use it in ISR to know we work on StartConversionASynch func */
+			ADC_u8IntSource_Falg = Single_CONV_ASYNCH;
 			/* configure the analog channel */
 			ADMUX &= CHANNEL_MASK;
 			ADMUX |= Copy_u8Channel;
@@ -186,7 +188,6 @@ uint8 ADC_u8StartConversionASynch(uint8 Copy_u8Channel ,uint16* Copy_pu16Result 
 			/*	this interrupt we use it to start ISR implementation */
 			/* Enable ADC conversion complete interrupt */
 			SET_BIT(ADCSRA,ADC_u8ADCSRA_ADIE);
-
 
 		}else
 		{
@@ -204,13 +205,13 @@ uint8 ADC_u8StartConversionASynch(uint8 Copy_u8Channel ,uint16* Copy_pu16Result 
 
 uint8 ADC_u8StartChainConversionASynch(ADC_Chain_Struct *puFrom_ADC_Chain_Struct)
 {
-	/* define local error state */
+	/* define Local_u8ErrorState */
 	uint8 Local_u8ErrorState =OK;
 
 	/* check on the value of pointer Copy_pu16Result is equal NULL Or Not */
-	if(( puFrom_ADC_Chain_Struct->Local_pu8ChannelArr != NULL) && (puFrom_ADC_Chain_Struct-> Local_pu16ResultArr != NULL) && (puFrom_ADC_Chain_Struct-> Copy_puNotificationFunc != NULL))
+	if((puFrom_ADC_Chain_Struct != NULL) && (puFrom_ADC_Chain_Struct->Local_pu8ChainArr != NULL) && (puFrom_ADC_Chain_Struct-> Local_pu16ResultArr != NULL) && (puFrom_ADC_Chain_Struct-> Copy_puNotificationFunc != NULL))
 	{
-		/* if ADC is not BUSY */
+		/* check if ADC is BUSY */
 		if (ADC_u8BusyFlag == IDLE)
 		{
 			/* ADC is now BUSY  */
@@ -222,12 +223,12 @@ uint8 ADC_u8StartChainConversionASynch(ADC_Chain_Struct *puFrom_ADC_Chain_Struct
 			/* Initialize the counter value */
 			ADC_u8ChainChannelCounter =0u;
 
-			/*	this flag we use it in ISR  */
+			/*	this flag we use it in ISR to know we work on ADC_u8StartChainConversionASynch func   */
 			ADC_u8IntSource_Falg = CHAIN_CONV_ASYNCH;
 
 			/* configure the analog channel */
 			ADMUX &= CHANNEL_MASK;
-			ADMUX |= ADC_pstChainDataGlobally->Local_pu8ChannelArr[ADC_u8ChainChannelCounter];
+			ADMUX |= ADC_pstChainDataGlobally->Local_pu8ChainArr[ADC_u8ChainChannelCounter];
 
 
 			/* Set start conversion bit  */
@@ -259,7 +260,7 @@ void __vector_16 (void)
 {
 
 	/* we must read the result firstly then call notification func */
-	if(ADC_u8IntSource_Falg == SINGLE_CONV_ASYNCH)
+	if(ADC_u8IntSource_Falg == Single_CONV_ASYNCH)
 	{
 		if(ADC_pu16ConversionResult != NULL)
 		{
@@ -291,51 +292,46 @@ void __vector_16 (void)
 		}
 	}else if (ADC_u8IntSource_Falg == CHAIN_CONV_ASYNCH)
 	{
-		if(ADC_pstChainDataGlobally->Local_pu16ResultArr[ADC_u8ChainChannelCounter] != NULL)
-		{
+
 #if ADC_u8RESOLUTION == EIGHT_BITS
-			ADC_pstChainDataGlobally->Local_pu16ResultArr[ADC_u8ChainChannelCounter]  = ADCH;
+		ADC_pstChainDataGlobally->Local_pu16ResultArr[ADC_u8ChainChannelCounter]  = ADCH;
 
 #elif  ADC_u8RESOLUTION == TEN_BITS
-			ADC_pstChainDataGlobally->Local_pu16ResultArr[ADC_u8ChainChannelCounter] = ADC;
+		ADC_pstChainDataGlobally->Local_pu16ResultArr[ADC_u8ChainChannelCounter] = ADC;
 #endif
 
-			/* update the counter  */
-			ADC_u8ChainChannelCounter++;
+		/* update the counter  */
+		ADC_u8ChainChannelCounter++;
 
-			/* check on conversion chain finish or not */
-			if(ADC_u8ChainChannelCounter < ADC_pstChainDataGlobally->Local_u8ChainSize )
-			{
-				/* configure the analog channel */
-				ADMUX &= CHANNEL_MASK;
-				ADMUX |= ADC_pstChainDataGlobally->Local_pu8ChannelArr[ADC_u8ChainChannelCounter];
+		/* check on conversion chain finish or not */
+		if(ADC_u8ChainChannelCounter < ADC_pstChainDataGlobally->Local_u8ChainSize )
+		{
+			/* chain is not finished yet */
+			/* configure the next analog channel */
+			ADMUX &= CHANNEL_MASK;
+			ADMUX |= ADC_pstChainDataGlobally->Local_pu8ChainArr[ADC_u8ChainChannelCounter];
 
-				/* Set start conversion bit  */
-				SET_BIT(ADCSRA,ADC_u8ADCSRA_ADSC);
+			/* Set start conversion bit  */
+			SET_BIT(ADCSRA,ADC_u8ADCSRA_ADSC);
 
-			}else
-			{
-				/* Disable the ADC conversion complete interrupt  */
-				CLR_BIT(ADCSRA,ADC_u8ADCSRA_ADIE);
-
-				/* ADC Is now IDLE */
-				ADC_u8BusyFlag = IDLE;
-				/*Invoke the application notification function*/
-
-				if(ADC_pstChainDataGlobally ->Copy_puNotificationFunc != NULL)
-				{
-					/* notify */
-					ADC_puNotificationFunc();
-				}else
-				{
-					/* Notification func pointer is NULL */
-				}
-			}
 		}else
 		{
-			/* conversion result pointer is NULL */
+			/* Disable the ADC conversion complete interrupt  */
+			CLR_BIT(ADCSRA,ADC_u8ADCSRA_ADIE);
+
+			/* ADC Is now IDLE */
+			ADC_u8BusyFlag = IDLE;
+			/*Invoke the application notification function*/
+
+			if(ADC_pstChainDataGlobally ->Copy_puNotificationFunc != NULL)
+			{
+				/* notify */
+				ADC_pstChainDataGlobally ->Copy_puNotificationFunc();
+			}else
+			{
+				/* Notification func pointer is NULL */
+			}
 		}
-
-
 	}
 }
+

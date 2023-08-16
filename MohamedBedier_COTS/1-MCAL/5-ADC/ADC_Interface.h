@@ -105,13 +105,14 @@ uint8 ADC_u8StartConversionSynch(uint8 Copy_u8Channel ,uint16* Copy_pu16Result);
  * @param Copy_puNotificationFunc
  * @return Local_u8ErrorState
  */
-uint8 ADC_u8StartConversionASynch(uint8 Copy_u8Channel ,uint16* Copy_pu16Result , void(*Copy_puNotificationFunc)(void));
+uint8 ADC_u8StartSingleConversionASynch(uint8 Copy_u8Channel ,uint16* Copy_pu16Result , void(*Copy_puNotificationFunc)(void));
 
 /* this is a struct for the parameter of ADC_u16StartChainConversionASynch */
+/* to avoid padding in our struct arrange it */
 typedef struct
 {
 	uint8 Local_u8ChainSize;
-	uint8* Local_pu8ChannelArr;
+	uint8* Local_pu8ChainArr;
 	uint16* Local_pu16ResultArr;
 	void(*Copy_puNotificationFunc)(void);
 }ADC_Chain_Struct;
