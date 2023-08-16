@@ -11,6 +11,12 @@
 #define  DISABLED   1u
 #define  ENABLED    2u
 
+#define   ROTATE_CLOCKWISE         1u
+#define   ROTATE_COUNTERCLOCKWISE  2u
+
+#define   SSD_COMMON_ANODE       1u
+#define   SSD_COMMON_CATHODE     2u
+
 #define  NULL  ((void*)0)
 
 #define OK             0u

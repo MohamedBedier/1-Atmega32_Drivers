@@ -1,7 +1,7 @@
 /*************************************************************/
 /*************************************************************/
 /**                                                         **/
-/** LayerArchitect: HAL                                     **/
+/** LayerArchitect: MCAL                                    **/
 /** File Name : ADC_Reg.h                                   **/
 /** Auther    : MOHAMED BEDIER MOHAMED                      **/
 /** Verision :  1.00                                        **/
