@@ -62,7 +62,7 @@
  *  		  4- DIO_u8PORTD
  */
 
-#define CLCD_DATA_PORT     DIO_u8PORTA
+#define CLCD_DATA_PORT     DIO_u8PORTD
 
 /* please choose which port to connect Data pins : D4 ~ D7  if we use 4 bit mode
  *  options : 1- DIO_u8PIN0
@@ -78,10 +78,10 @@
 
 #if  CLCD_OP_MODE == FOUR_BIT_MODE
 
-#define  CLCD_D4_PIN   DIO_u8PIN0
-#define  CLCD_D5_PIN   DIO_u8PIN1
-#define  CLCD_D6_PIN   DIO_u8PIN2
-#define  CLCD_D7_PIN   DIO_u8PIN3
+#define  CLCD_D4_PIN   DIO_u8PIN4
+#define  CLCD_D5_PIN   DIO_u8PIN5
+#define  CLCD_D6_PIN   DIO_u8PIN6
+#define  CLCD_D7_PIN   DIO_u8PIN7
 #endif
 
 
