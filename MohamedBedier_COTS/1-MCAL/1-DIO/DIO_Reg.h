@@ -1,19 +1,25 @@
-/*************************************************************/
-/*************************************************************/
-/**                                                         **/
-/**  LayerArchitecture : MCAL                               **/
-/** File Name : DIO_Reg.h                                   **/
-/** Auther    : MOHAMED BEDIER MOHAMED                      **/
-/** Verision :  1.00                                        **/
-/**                                                         **/
-/*************************************************************/
-/*************************************************************/
+/*************************************************************
+ *************************************************************
+ *
+ * @LayerArchitecture:  MCAL
+ * @file :  DIO_Reg.h
+ * @author: MOHAMED BEDIER MOHAMED
+ * @brief:  this file is used to carry memory map addressess for the DIO Registers
+ * @version:  1.00
+ *
+ *************************************************************
+ *************************************************************/
+
+/**  this is a preprocessor directives commonly used to create "include guards" in header files.
+ *   These guards prevent the contents of a header file from being included multiple times
+ *   during compilation, which can lead to redefinition errors.
+ */
 
 #ifndef   DIO_REG_H_
 #define   DIO_REG_H_
 
 
- /* From data sheet , we have these address from Register summary section */
+/* From data sheet , we have these address from Register summary section we work as memory map address */
 
   /* For PORTA  */
 #define   DDRA     *((volatile uint8*)0x3A)
