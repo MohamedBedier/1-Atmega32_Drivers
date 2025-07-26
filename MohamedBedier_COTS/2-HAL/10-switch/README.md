@@ -34,4 +34,5 @@ typedef struct
  					   7-DIO_u8PIN6
  				   	   8-DIO_u8PIN7		
 					   
- ** create a variable to carrying state and pass its address to struct **					   
+ ** create a variable to carrying state and pass its address to struct **		
+ 
