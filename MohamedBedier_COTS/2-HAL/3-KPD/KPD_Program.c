@@ -1,14 +1,21 @@
-/*************************************************************/
-/*************************************************************/
-/**                                                         **/
-/**  LayerArchitecture : HAL                                **/
-/** File Name :KPD_Program.c                                **/
-/** Auther    : MOHAMED BEDIER MOHAMED                      **/
-/** Verision :  1.00                                        **/
-/**                                                         **/
-/*************************************************************/
-/*************************************************************/
+/*************************************************************
+ *************************************************************
+ *
+ * @LayerArchitecture:  HAL
+ * @file :  KPD_Program.c
+ * @author: MOHAMED BEDIER MOHAMED
+ * @brief:  this file is used to implement the function
+ * @version:  1.00
+ *
+ *************************************************************
+ *************************************************************/
 
+
+/***************************************************************************
+****************************************************************************
+*******        include all libraries you need in this section        *******
+****************************************************************************
+****************************************************************************/
 
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
@@ -24,12 +31,16 @@
 
 /**
  * @details : All row pins are input pulled up , All column pins are output high
+ * @brief this function to get the pressed key
+ * @return this func return Local_u8PressedKey
  */
+
 
 uint8 KPD_u8GetPressedKey(void)
 {
 	uint8 Local_u8PressedKey = KPD_u8NO_PRESSED_KEY_VAL;
 	uint8 Local_u8ROWCounter,Local_u8ColCounter,Local_u8KeyState;
+
 	/* TO Save stack consumption using static keyword ===> sort in .data section  */
 	static uint8 Local_u8ColArr[KPD_u8COL_NUM] = {KPD_u8COL1_PIN,KPD_u8COL2_PIN,KPD_u8COL3_PIN,KPD_u8COL4_PIN};
 	static uint8 Local_u8ROWArr[KPD_u8ROW_NUM] = {KPD_u8ROW1_PIN,KPD_u8ROW2_PIN,KPD_u8ROW3_PIN,KPD_u8ROW4_PIN};
