@@ -1,17 +1,28 @@
-/*************************************************************/
-/*************************************************************/
-/**                                                         **/
-/**  LayerArchitecture : HAL                                **/
-/** File Name : SSD_Private.h                               **/
-/** Auther    : MOHAMED BEDIER MOHAMED                      **/
-/** Verision :  1.00                                        **/
-/**                                                         **/
-/*************************************************************/
-/*************************************************************/
+/*************************************************************
+ *************************************************************
+ *
+ * @LayerArchitecture:  HAL
+ * @file :  SSD_Private.h
+ * @author: MOHAMED BEDIER MOHAMED
+ * @brief:  this file is used to hide any thing from the user
+ * @version:  1.00
+ *
+ *************************************************************
+ *************************************************************/
 
+/**  this is a preprocessor directives commonly used to create "include guards" in header files.
+ *   These guards prevent the contents of a header file from being included multiple times
+ *   during compilation, which can lead to redefinition errors.
+ */
 
 #ifndef SSD_PRIVATE_H_
 #define SSD_PRIVATE_H_
+
+/***************************************************/
+/***************************************************/
+/*******        define private macros        *******/
+/***************************************************/
+/***************************************************/
 
  /* Common cathode */
 #define  NUMBER0    0x3F
@@ -26,8 +37,9 @@
 #define  NUMBER9    0x6F
 
 
-//#define SSD_NUMBER_ARR  { NUMBER0 , NUMBER1 , NUMBER2 , NUMBER3 , NUMBER4 , NUMBER5 , NUMBER6 , NUMBER7 , NUMBER8 , NUMBER9 }
+#define SSD_NUMBER_ARR  { NUMBER0 , NUMBER1 , NUMBER2 , NUMBER3 , NUMBER4 , NUMBER5 , NUMBER6 , NUMBER7 , NUMBER8 , NUMBER9 }
 
+#define   SSD_ARR_SIZE          10u
 #define   SSD_COMMON_ANODE       0u
 #define   SSD_COMMON_CATHODE     1u
 
