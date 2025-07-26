@@ -82,3 +82,4 @@ void CLCD_voidSendSpecialCharacter(uint8 *Copy_pu8Pattern, uint8 Copy_u8PatternN
 
 
 #endif
+

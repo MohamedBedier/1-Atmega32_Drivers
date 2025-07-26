@@ -31,4 +31,5 @@ static void voidSetLCDHalfDataPort(uint8 Copy_u8Nipple);
 #define FOUR_BIT_MODE			2u
 
 
+
 #endif
