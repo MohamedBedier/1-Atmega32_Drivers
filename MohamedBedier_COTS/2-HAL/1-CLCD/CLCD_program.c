@@ -1,13 +1,21 @@
-/*************************************************************/
-/*************************************************************/
-/**                                                         **/
-/**  LayerArchitecture : HAL                                **/
-/** File Name : CLCD_program.c                              **/
-/** Auther    : MOHAMED BEDIER MOHAMED                      **/
-/** Verision :  1.00                                        **/
-/**                                                         **/
-/*************************************************************/
-/*************************************************************/
+/*************************************************************
+ *************************************************************
+ *
+ * @LayerArchitecture:  HAL
+ * @file :  CLCD_program.c
+ * @author: MOHAMED BEDIER MOHAMED
+ * @brief:  this file is used to implement the function
+ * @version:  1.00
+ *
+ *************************************************************
+ *************************************************************/
+
+
+/***************************************************************************
+****************************************************************************
+*******        include all libraries you need in this section        *******
+****************************************************************************
+****************************************************************************/
 
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
@@ -20,16 +28,21 @@
 #include "CLCD_prv.h"
 #include "CLCD_cfg.h"
 
+/**
+ * @brief: This function is used to send enabled pulse high then wait about 2 MS then low and we made this function as static [only used in this file]
+ */
 static void voidSendEnablePulse(void)
 {
-	/*Send enable pulse*/
+	/* Send enable pulse */
 	DIO_u8SetPinValue(CLCD_CTRL_PORT,CLCD_EN_PIN,DIO_u8PIN_HIGH);
 	_delay_ms(2);
 	DIO_u8SetPinValue(CLCD_CTRL_PORT,CLCD_EN_PIN,DIO_u8PIN_LOW);
 }
 
+/**
+ * @brief: This function is used to Set LCD Half Data Port and we made this function as static [only used in this file]
+ */
 #if CLCD_OP_MODE == FOUR_BIT_MODE
-
 static void voidSetLCDHalfDataPort(uint8 Copy_u8Nipple)
 {
 	DIO_u8SetPinValue(CLCD_DATA_PORT,CLCD_D4_PIN,GET_BIT(Copy_u8Nipple,0));
@@ -40,6 +53,10 @@ static void voidSetLCDHalfDataPort(uint8 Copy_u8Nipple)
 
 #endif
 
+/**
+ * @brief: This function is used to send command to CLCD
+ * @param Copy_u8Cmd : this is the command
+ */
 void CLCD_voidSendCmd(uint8 Copy_u8Cmd)
 {
 	/*Set RS pin to low for command*/
@@ -51,24 +68,32 @@ void CLCD_voidSendCmd(uint8 Copy_u8Cmd)
 	DIO_u8SetPinValue(CLCD_CTRL_PORT,CLCD_RW_PIN,DIO_u8PIN_LOW);
 #endif
 
+	/* if i work as EIGHT BIT MODE */
 #if CLCD_OP_MODE == EIGHT_BIT_MODE
+
 	/*Send the command to data pins*/
 	DIO_u8SetPortValue(CLCD_DATA_PORT,Copy_u8Cmd);
-
+	/* send an enable pulse */
 	voidSendEnablePulse();
 
-#elif CLCD_OP_MODE == FOUR_BIT_MODE
+#elif CLCD_OP_MODE == FOUR_BIT_MODE /* if i work as FOUR BIT MODE */
 
 	/*send the most 4 bits to the LCD*/
 	voidSetLCDHalfDataPort(Copy_u8Cmd>>4);
+	/* send an enable pulse */
 	voidSendEnablePulse();
 
 	/*send the least 4 bits to the LCD*/
 	voidSetLCDHalfDataPort(Copy_u8Cmd);
+	/* send an enable pulse */
 	voidSendEnablePulse();
 #endif
 }
 
+/**
+ * @brief: This function is used to send Data to CLCD
+ * @param Copy_u8Data : this is the Data
+ */
 void CLCD_voidSendData(uint8 Copy_u8Data)
 {
 	/*Set RS pin to high for Data*/
@@ -83,20 +108,24 @@ void CLCD_voidSendData(uint8 Copy_u8Data)
 #if CLCD_OP_MODE == EIGHT_BIT_MODE
 	/*Send the Data to data pins*/
 	DIO_u8SetPortValue(CLCD_DATA_PORT,Copy_u8Data);
-
+	/* send an enable pulse */
 	voidSendEnablePulse();
 
 #elif CLCD_OP_MODE == FOUR_BIT_MODE
 
 	voidSetLCDHalfDataPort(Copy_u8Data>>4);	/*send the most 4 bits to the LCD*/
+	/* send an enable pulse */
 	voidSendEnablePulse();
 
 	voidSetLCDHalfDataPort(Copy_u8Data);	/*send the least 4 bits to the LCD*/
+	/* send an enable pulse */
 	voidSendEnablePulse();
 #endif
-
 }
 
+/**
+* @brief this function  is used to initialize CLCD
+*/
 void CLCD_voidInit(void)
 {
 	/*wait for more than 30ms after power on*/
@@ -110,16 +139,20 @@ void CLCD_voidInit(void)
 
 	/* function set in 4 bit mode send its command in 3 steps */
 	voidSetLCDHalfDataPort(0b0010);
+	/* send an enable pulse */
 	voidSendEnablePulse();
+	/* send an enable pulse */
 	voidSetLCDHalfDataPort(0b0010);
+	/* send an enable pulse */
 	voidSendEnablePulse();
 	voidSetLCDHalfDataPort(0b1000);
+	/* send an enable pulse */
 	voidSendEnablePulse();
 
 #endif
 
 	/* internally it divided the command to 2 steps */
-	/*Display on/off control: display enable, cursor and blink disable*/
+	/* Display on/off control: display enable, cursor and blink disable */
 	CLCD_voidSendCmd(0b00001100);
 
 	/* internally it divided the command to 2 steps */
@@ -127,6 +160,12 @@ void CLCD_voidInit(void)
 	CLCD_voidSendCmd(1);
 }
 
+/**
+ * @brief: This function is used to send string to CLCD
+ * @param[in] Copy_chString : this is the string from user
+ * @details we use const char* Copy_chString to avoid any edit on our string
+ * @return Local_u8ErrorState : This variable is used to carry error state value
+ */
 uint8 CLCD_u8SendString(const char* Copy_chString)
 {
 	/* define local variables */
@@ -157,6 +196,11 @@ uint8 CLCD_u8SendString(const char* Copy_chString)
 	return Local_u8ErrorState;
 }
 
+
+/**
+ * @brief: This function is used to send number to CLCD
+ * @param[in] Copy_s32Number: this is a number from user
+ */
 void CLCD_voidSendNumber(sint32 Copy_s32Number)
 {
 	/* this is an char array to carry assci of Copy_s32Number for every digit */
@@ -207,6 +251,11 @@ void CLCD_voidSendNumber(sint32 Copy_s32Number)
 	}
 }
 
+/**
+ * @brief: This function used to go to any position on CLCD
+ * @param[in] Copy_u8XPos: this is the X position.
+ * @param[in] Copy_u8YPos: this is the Y position.
+ */
 void CLCD_voidGoToXY(uint8 Copy_u8XPos, uint8 Copy_u8YPos)
 {
 	/* define local variable to carry final address */
@@ -233,6 +282,13 @@ void CLCD_voidGoToXY(uint8 Copy_u8XPos, uint8 Copy_u8YPos)
 	CLCD_voidSendCmd(Local_u8DDRamAdd);
 }
 
+/**
+ * @brief: This function is used to send  special pattern to CLCD
+ * @param[in] Copy_pu8Pattern : this is a pointer to carry the address of an array which carrying the pattern bytes
+ * @param[in] Copy_u8PatternNum from 0 to 7
+ * @param[in] Copy_u8XPos: this is the X position.
+ * @param[in] Copy_u8YPos: this is the Y position.
+ */
 void CLCD_voidSendSpecialCharacter(uint8 *Copy_pu8Pattern, uint8 Copy_u8PatternNum, uint8 Copy_u8XPos, uint8 Copy_u8YPos )
 {
 	/* define local variable to carry Start address of CGRAM of Copy_u8PatternNum*/
