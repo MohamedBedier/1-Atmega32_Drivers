@@ -315,3 +315,4 @@ void CLCD_voidSendSpecialCharacter(uint8 *Copy_pu8Pattern, uint8 Copy_u8PatternN
 	/*Display the pattern written inside CGRAM*/
 	CLCD_voidSendData(Copy_u8PatternNum);
 }
+
