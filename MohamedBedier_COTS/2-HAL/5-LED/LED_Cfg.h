@@ -1,13 +1,22 @@
-/*************************************************************/
-/*************************************************************/
-/**                                                         **/
-/**  LayerArchitecture : APP                                **/
-/** File Name : LED_Cfg.h                                   **/
-/** Auther    : MOHAMED BEDIER MOHAMED                      **/
-/** Verision :  1.00                                        **/
-/**                                                         **/
-/*************************************************************/
-/*************************************************************/
+/*************************************************************
+ *************************************************************
+ *
+ * @LayerArchitecture:  HAL
+ * @file :  LED_Cfg.h
+ * @author: MOHAMED BEDIER MOHAMED
+ * @brief:  this file is used if we build the driver as pre-build configuration
+ *		    ,the user must define any requirements in this file before the compilation process
+ * @version:  1.00
+ *
+ *************************************************************
+ *************************************************************/
+
+/**  this is a preprocessor directives commonly used to create "include guards" in header files.
+ *   These guards prevent the contents of a header file from being included multiple times
+ *   during compilation, which can lead to redefinition errors.
+ */
+
+
 #ifndef LED_CFG_H_
 #define LED_CFG_H_
 
